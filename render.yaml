@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: veriq-ai-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./veriq.db
+      - key: STORAGE_DIR
+        value: ./storage
+      - key: MAX_UPLOAD_MB
+        value: "10"
+      - key: DEMO_MODE
+        value: "true"
+      - key: PYTHON_VERSION
+        value: "3.11.0"
