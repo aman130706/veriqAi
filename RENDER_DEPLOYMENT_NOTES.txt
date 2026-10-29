@@ -1,0 +1,30 @@
+VERIQ AI — RENDER DEPLOYMENT NOTES
+
+This project contains two services:
+1) FastAPI backend from backend/
+2) Vite static frontend from frontend/
+
+BACKEND WEB SERVICE
+Root Directory: backend
+Build Command: pip install -r requirements.txt
+Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+Environment variables:
+  DATABASE_URL=sqlite:///./veriq.db
+  STORAGE_DIR=./storage
+  MAX_UPLOAD_MB=10
+  DEMO_MODE=true
+
+FRONTEND STATIC SITE
+Root Directory: frontend
+Build Command: npm install && npm run build
+Publish Directory: dist
+Environment variable after backend deploys:
+  VITE_API_URL=https://YOUR-BACKEND-SERVICE.onrender.com
+Replace the value with the actual backend URL from Render. Do not include /api/v1 at the end.
+Then redeploy the frontend so Vite embeds the URL.
+
+NOTES
+- Put the contents of this ZIP's veriq-ai folder at the root of your GitHub repository.
+- SQLite and uploaded files on a free Render web service are ephemeral; data may be lost on restart/redeploy. This is suitable only for a demo. Use managed PostgreSQL and persistent/private file storage for durable use.
+- This is a demo MVP with demo authentication. Do not upload real personal or sensitive documents.
+- The backend CORS setting is open for a simple public demo. Tighten it to the exact frontend origin before production.
